@@ -1,0 +1,2 @@
+- module: kafka
+  hosts: ["localhost:9092"]

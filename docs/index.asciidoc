@@ -1,0 +1,5 @@
+= Merakibeat Docs
+
+Welcome to the Merakibeat documentation.
+
+

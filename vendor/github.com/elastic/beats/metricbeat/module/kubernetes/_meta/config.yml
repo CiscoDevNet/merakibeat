@@ -1,0 +1,13 @@
+- module: kubernetes
+  metricsets:
+    - container
+    - node
+    - pod
+    - system
+    - volume
+  hosts: ["localhost:10255"]
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  ssl.certificate_authorities:
+    - /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+  #username: "user"
+  #password: "secret"

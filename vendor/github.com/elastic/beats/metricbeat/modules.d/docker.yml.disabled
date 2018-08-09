@@ -1,0 +1,5 @@
+- module: docker
+  hosts: ["unix:///var/run/docker.sock"]
+
+  # Replace dots in labels with `_`. Set to false to keep dots
+  labels.dedot: true

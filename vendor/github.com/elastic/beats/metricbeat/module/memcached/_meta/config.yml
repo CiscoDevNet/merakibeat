@@ -1,0 +1,2 @@
+- module: memcached
+  hosts: ["localhost:11211"]

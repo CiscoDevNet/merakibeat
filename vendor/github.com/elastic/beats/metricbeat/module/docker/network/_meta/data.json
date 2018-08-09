@@ -1,0 +1,56 @@
+{
+    "@timestamp": "2017-10-12T08:05:34.853Z",
+    "beat": {
+        "hostname": "host.example.com",
+        "name": "host.example.com"
+    },
+    "docker": {
+        "container": {
+            "id": "452523bf833fd9fd1a8425135b720de4cb9b5a32096deac5b52a97e97bb6d16d",
+            "labels": {
+                "com_docker_compose_config-hash": "68a840a9e1c606ca1026492e50620e139ca342c585f330025a90f39a5fd32538",
+                "com_docker_compose_container-number": "1",
+                "com_docker_compose_oneoff": "False",
+                "com_docker_compose_project": "metricbeat",
+                "com_docker_compose_service": "elasticsearch",
+                "com_docker_compose_version": "1.21.0",
+                "maintainer": "Elastic Docker Team \u003cdocker@elastic.co\u003e",
+                "org_label-schema_schema-version": "= 1.0     org.label-schema.name=CentOS Base Image     org.label-schema.vendor=CentOS     org.label-schema.license=GPLv2     org.label-schema.build-date=20180402"
+            },
+            "name": "metricbeat_elasticsearch_1"
+        },
+        "network": {
+            "in": {
+                "bytes": 0,
+                "dropped": 0,
+                "errors": 0,
+                "packets": 0
+            },
+            "inbound": {
+                "bytes": 61694097,
+                "dropped": 0,
+                "errors": 0,
+                "packets": 714036
+            },
+            "interface": "eth0",
+            "out": {
+                "bytes": 0,
+                "dropped": 0,
+                "errors": 0,
+                "packets": 0
+            },
+            "outbound": {
+                "bytes": 69114459,
+                "dropped": 0,
+                "errors": 0,
+                "packets": 713985
+            }
+        }
+    },
+    "metricset": {
+        "host": "/var/run/docker.sock",
+        "module": "docker",
+        "name": "network",
+        "rtt": 115
+    }
+}

@@ -1,0 +1,2 @@
+- module: postgresql
+  hosts: ["postgres://localhost:5432"]

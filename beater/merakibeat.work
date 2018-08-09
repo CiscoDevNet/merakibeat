@@ -1,0 +1,94 @@
+package beater
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"time"
+
+	"github.com/elastic/beats/libbeat/beat"
+	"github.com/elastic/beats/libbeat/common"
+	"github.com/elastic/beats/libbeat/logp"
+
+	"github.com/npateriya/merakibeat/config"
+)
+
+type Merakibeat struct {
+	done   chan struct{}
+	config config.Config
+	client beat.Client
+}
+
+// Creates beater
+func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
+	c := config.DefaultConfig
+	if err := cfg.Unpack(&c); err != nil {
+		return nil, fmt.Errorf("Error reading config file: %v", err)
+	}
+
+	bt := &Merakibeat{
+		done:   make(chan struct{}),
+		config: c,
+	}
+	return bt, nil
+}
+
+type NetworkStat struct {
+	Assoc   int `json:"assoc"`
+	Auth    int `json:"auth"`
+	Dhcp    int `json:"dhcp"`
+	DNS     int `json:"dns"`
+	Success int `json:"success"`
+}
+
+func (bt *Merakibeat) Run(b *beat.Beat) error {
+	logp.Info("merakibeat is running! Hit CTRL-C to stop it.")
+
+	var err error
+	bt.client, err = b.Publisher.Connect()
+	if err != nil {
+		return err
+	}
+
+	ticker := time.NewTicker(bt.config.Period)
+	counter := 1
+	for {
+		select {
+		case <-bt.done:
+			return nil
+		case <-ticker.C:
+		}
+
+		resp, err := http.Get("http://localhost:5050/api/v0/networks/N_1181646/connectionStats")
+		if err != nil {
+			continue
+		}
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			continue
+		}
+		var data NetworkStat
+		json.Unmarshal(body, &data)
+		event := beat.Event{
+			Timestamp: time.Now(),
+			Fields: common.MapStr{
+				"type":    b.Info.Name,
+				"counter": counter,
+				"assoc":   data.Assoc,
+				"Auth":    data.Auth,
+				"dhcp":    data.Dhcp,
+				"dns":     data.DNS,
+				"success": data.Success,
+			},
+		}
+		bt.client.Publish(event)
+		logp.Info("Event sent")
+		counter++
+	}
+}
+
+func (bt *Merakibeat) Stop() {
+	bt.client.Close()
+	close(bt.done)
+}

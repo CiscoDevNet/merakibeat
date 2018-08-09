@@ -1,0 +1,2 @@
+- module: windows
+  period: 60s

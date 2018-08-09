@@ -1,0 +1,2 @@
+- module: rabbitmq
+  hosts: ["localhost:15672"]
