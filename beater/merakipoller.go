@@ -34,9 +34,22 @@ func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller
 // function that returns mapstr type.
 func (p *MerakiPoller) Run() {
 
-	// Publish Network Event
+	// Publish Network Connection Event
 	for _, netID := range p.config.MerakiNetworkIDs {
 		mapStr, err := p.mc.GetNetworkConnectionStat(netID)
+		if err == nil {
+			event := beat.Event{
+				Timestamp: time.Now(),
+				Fields:    mapStr,
+			}
+			p.merakibeat.client.Publish(event)
+			logp.Info("Network Connection Stat event sent")
+		}
+	}
+
+	// Publish Network Latency Event
+	for _, netID := range p.config.MerakiNetworkIDs {
+		mapStr, err := p.mc.GetNetworkLatencyStat(netID)
 		if err == nil {
 			event := beat.Event{
 				Timestamp: time.Now(),
