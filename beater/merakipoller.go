@@ -35,28 +35,69 @@ func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller
 func (p *MerakiPoller) Run() {
 
 	// Publish Network Connection Event
-	for _, netID := range p.config.MerakiNetworkIDs {
-		mapStr, err := p.mc.GetNetworkConnectionStat(netID)
-		if err == nil {
-			event := beat.Event{
-				Timestamp: time.Now(),
-				Fields:    mapStr,
+	if p.config.NwConnStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStr, err := p.mc.GetNetworkConnectionStat(netID)
+			if err == nil {
+				event := beat.Event{
+					Timestamp: time.Now(),
+					Fields:    mapStr,
+				}
+				p.merakibeat.client.Publish(event)
+				logp.Info("Network Connection Stat event sent")
 			}
-			p.merakibeat.client.Publish(event)
-			logp.Info("Network Connection Stat event sent")
 		}
 	}
 
 	// Publish Network Latency Event
-	for _, netID := range p.config.MerakiNetworkIDs {
-		mapStr, err := p.mc.GetNetworkLatencyStat(netID)
-		if err == nil {
-			event := beat.Event{
-				Timestamp: time.Now(),
-				Fields:    mapStr,
+	if p.config.NwLatencyStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStr, err := p.mc.GetNetworkLatencyStat(netID)
+			if err == nil {
+				event := beat.Event{
+					Timestamp: time.Now(),
+					Fields:    mapStr,
+				}
+				p.merakibeat.client.Publish(event)
+				logp.Info("Network Connection Stat event sent")
 			}
-			p.merakibeat.client.Publish(event)
-			logp.Info("Network Connection Stat event sent")
+		}
+	}
+
+	// Publish devices network stats for configured network
+	if p.config.DeviceConnStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStrArr, err := p.mc.GetDevicesConnectionStat(netID)
+			if err == nil {
+				for j, mapStr := range mapStrArr {
+					event := beat.Event{
+						Timestamp: time.Now(),
+						Fields:    mapStr,
+					}
+					p.merakibeat.client.Publish(event)
+					logp.Info("Device network connection Stat event sent %d", j)
+				}
+				logp.Info("Device network connection Stat event sent")
+
+			}
+		}
+	}
+
+	// Publish devices latency stats for configured network
+	if p.config.DeviceLatencyStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStrArr, err := p.mc.GetDevicesLatencyStat(netID)
+			if err == nil {
+				for j, mapStr := range mapStrArr {
+					event := beat.Event{
+						Timestamp: time.Now(),
+						Fields:    mapStr,
+					}
+					p.merakibeat.client.Publish(event)
+					logp.Info("Device network latency Stat event sent %d", j)
+				}
+				logp.Info("Device network latency Stat event sent")
+			}
 		}
 	}
 }

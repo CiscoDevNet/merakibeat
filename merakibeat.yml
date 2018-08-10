@@ -7,8 +7,14 @@ merakibeat:
   period: 10s
   merakihost: http://localhost:5050
   merakikey: XYZ
-  merakinewtorkids: ["ABC", "XYZ"]
+  merakinewtorkids: ["ABC1", "ABC2","ABC3","ABC4","ABC5","ABC6","ABC7","ABC8" ]
   merakiorgid: "Org1"
+  nwconnstat: 1
+  nwlatencystat: 1
+  devconnstat: 0
+  devlatencystat: 0
+  clconnstat: 0
+  cllatencystat: 0
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group

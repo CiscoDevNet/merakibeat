@@ -12,16 +12,21 @@ type NetworkStat struct {
 	Success int `json:"success"`
 }
 
-func (ns *NetworkStat) GetMapStr(networkID string) (common.MapStr, error) {
-	return common.MapStr{
-		"type":    "NetworkConnectionStats",
+type DevicesNetworkStat map[string]NetworkStat
+
+func (ns *NetworkStat) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
+	mapStr := common.MapStr{
+		"type":    stattype,
 		"assoc":   ns.Assoc,
 		"auth":    ns.Auth,
 		"dhcp":    ns.Dhcp,
 		"dns":     ns.DNS,
 		"success": ns.Success,
-		"object":  networkID,
-	}, nil
+	}
+	for key, value := range addlnKVP {
+		mapStr.Put(key, value)
+	}
+	return mapStr, nil
 }
 
 type LatencyRange struct {
@@ -45,11 +50,11 @@ type LatencyStats struct {
 	VoiceTraffic      LatencyRange `json:"voiceTraffic"`
 }
 
-func (ls *LatencyStats) GetMapStr(networkID string) (common.MapStr, error) {
-	return common.MapStr{
-		"type":   "NetworkLatencyStats",
-		"object": networkID,
+type DevicesLatencyStat map[string]LatencyStats
 
+func (ls *LatencyStats) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
+	mapStr := common.MapStr{
+		"type":                    stattype,
 		"BackgroundTraffic.0":     ls.BackgroundTraffic.Num0,
 		"BackgroundTraffic.2":     ls.BackgroundTraffic.Num2,
 		"BackgroundTraffic.4":     ls.BackgroundTraffic.Num4,
@@ -101,5 +106,9 @@ func (ls *LatencyStats) GetMapStr(networkID string) (common.MapStr, error) {
 		"VoiceTraffic.512":   ls.VoiceTraffic.Num512,
 		"VoiceTraffic.1024":  ls.VoiceTraffic.Num1024,
 		"VoiceTraffic.20148": ls.VoiceTraffic.Num2048,
-	}, nil
+	}
+	for key, value := range addlnKVP {
+		mapStr.Put(key, value)
+	}
+	return mapStr, nil
 }

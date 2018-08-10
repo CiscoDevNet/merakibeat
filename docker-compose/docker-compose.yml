@@ -14,7 +14,7 @@ services:
     networks:
       - elk
 
-  mearkibeat:
+  merakibeat:
     image: npateriyainsecure/merakibeat
     volumes:
       - ./config/merakibeat.yml:/plugin/merakibeat.yml:ro
@@ -37,12 +37,13 @@ services:
 
   merakimock:
     image: npateriyainsecure/merakimock
+    ports:
+      - "5050:5050"
     networks:
       - elk
     depends_on:
       - elasticsearch
 
 networks:
-
   elk:
     driver: bridge
