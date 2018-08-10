@@ -148,3 +148,73 @@ func (mc *MerakiClient) GetDevicesLatencyStat(networkID string) (devicesStat []c
 	return devicesStat, err
 
 }
+
+func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat []common.MapStr, err error) {
+	netURL := fmt.Sprintf("%s/api/v0/networks/%s/clients/connectionStats", mc.URL, networkID)
+	logp.Info("URL %s", netURL)
+	resp, err := http.Get(netURL)
+	if err != nil {
+		logp.Info("Failed to connect Meraki API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logp.Info("Failed to get data from Meraki API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+	var data ClientsNetworkStat
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		logp.Info("Failed to Unmarshal data from API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+	logp.Info("data from API %+v", data)
+
+	for key, value := range data {
+		additionalMap := map[string]string{
+			"networkid": networkID,
+			"clientid":  key,
+		}
+		nwStat, _ := value.GetMapStr("ClientNetworkConnectionStat", additionalMap)
+		clientsStat = append(clientsStat, nwStat)
+	}
+	logp.Info("%+v", clientsStat)
+	return clientsStat, err
+
+}
+
+func (mc *MerakiClient) GetClientLatencyStat(networkID string) (clientsStat []common.MapStr, err error) {
+	netURL := fmt.Sprintf("%s/api/v0/networks/%s/devices/latencyStats", mc.URL, networkID)
+	logp.Info("URL %s", netURL)
+	resp, err := http.Get(netURL)
+	if err != nil {
+		logp.Info("Failed to connect Meraki API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logp.Info("Failed to get data from Meraki API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+	var data ClientsLatencyStat
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		logp.Info("Failed to Unmarshal data from API %s", err.Error())
+		return []common.MapStr{}, err
+	}
+	logp.Info("data from API %+v", data)
+
+	for key, value := range data {
+		additionalMap := map[string]string{
+			"networkid": networkID,
+			"deviceid":  key,
+		}
+		latencyStat, _ := value.GetMapStr("ClientNetworkLatencyStat", additionalMap)
+		clientsStat = append(clientsStat, latencyStat)
+	}
+	logp.Info("%+v", clientsStat)
+	return clientsStat, err
+
+}

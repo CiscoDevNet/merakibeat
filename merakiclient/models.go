@@ -13,6 +13,7 @@ type NetworkStat struct {
 }
 
 type DevicesNetworkStat map[string]NetworkStat
+type ClientsNetworkStat map[string]NetworkStat
 
 func (ns *NetworkStat) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
 	mapStr := common.MapStr{
@@ -51,6 +52,7 @@ type LatencyStats struct {
 }
 
 type DevicesLatencyStat map[string]LatencyStats
+type ClientsLatencyStat map[string]LatencyStats
 
 func (ls *LatencyStats) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
 	mapStr := common.MapStr{

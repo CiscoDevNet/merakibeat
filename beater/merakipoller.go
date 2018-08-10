@@ -33,7 +33,7 @@ func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller
 // config item.  MerakiClient should have no understanding of beats framework except
 // function that returns mapstr type.
 func (p *MerakiPoller) Run() {
-
+	logp.Info("%+v", p.config)
 	// Publish Network Connection Event
 	if p.config.NwConnStat != 0 {
 		for _, netID := range p.config.MerakiNetworkIDs {
@@ -97,6 +97,43 @@ func (p *MerakiPoller) Run() {
 					logp.Info("Device network latency Stat event sent %d", j)
 				}
 				logp.Info("Device network latency Stat event sent")
+			}
+		}
+	}
+
+	// Publish client network stats for configured network
+	if p.config.ClientConnStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStrArr, err := p.mc.GetClientConnectionStat(netID)
+			if err == nil {
+				for j, mapStr := range mapStrArr {
+					event := beat.Event{
+						Timestamp: time.Now(),
+						Fields:    mapStr,
+					}
+					p.merakibeat.client.Publish(event)
+					logp.Info("Client network connection Stat event sent %d", j)
+				}
+				logp.Info("Client network connection Stat event sent")
+
+			}
+		}
+	}
+
+	// Publish client latency stats for configured network
+	if p.config.ClientLatencyStat != 0 {
+		for _, netID := range p.config.MerakiNetworkIDs {
+			mapStrArr, err := p.mc.GetClientLatencyStat(netID)
+			if err == nil {
+				for j, mapStr := range mapStrArr {
+					event := beat.Event{
+						Timestamp: time.Now(),
+						Fields:    mapStr,
+					}
+					p.merakibeat.client.Publish(event)
+					logp.Info("Client network latency Stat event sent %d", j)
+				}
+				logp.Info("Client network latency Stat event sent")
 			}
 		}
 	}

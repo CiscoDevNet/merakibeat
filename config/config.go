@@ -13,10 +13,10 @@ type Config struct {
 	MerakiOrgID       string        `config:"merakiorgid"`
 	NwConnStat        int           `config:"nwconnstat"`
 	NwLatencyStat     int           `config:"nwlatencystat"`
-	DeviceConnStat    int           `config:"devconnstat`
+	DeviceConnStat    int           `config:"devconnstat"`
 	DeviceLatencyStat int           `config:"devlatencystat"`
-	ClientConnStat    int           `config:"clconnstat`
-	ClientLatencyStat int           `config:"cllatencystat`
+	ClientConnStat    int           `config:"clconnstat"`
+	ClientLatencyStat int           `config:"cllatencystat"`
 }
 
 var DefaultConfig = Config{
