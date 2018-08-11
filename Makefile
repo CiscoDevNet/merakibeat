@@ -1,5 +1,5 @@
 BEAT_NAME=merakibeat
-BEAT_PATH=github.com/npateriya/merakibeat
+BEAT_PATH=github.com/CiscoDevNet/merakibeat
 BEAT_GOPATH=$(firstword $(subst :, ,${GOPATH}))
 BEAT_URL=https://${BEAT_PATH}
 SYSTEM_TESTS=false

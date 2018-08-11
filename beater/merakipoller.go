@@ -3,11 +3,11 @@ package beater
 import (
 	"time"
 
+	"github.com/CiscoDevNet/merakibeat/config"
+	"github.com/CiscoDevNet/merakibeat/merakiclient"
 	"github.com/elastic/beats/libbeat/beat"
 	_ "github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
-	"github.com/npateriya/merakibeat/config"
-	"github.com/npateriya/merakibeat/merakiclient"
 )
 
 type MerakiPoller struct {

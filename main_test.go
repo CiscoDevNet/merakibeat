@@ -6,7 +6,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/npateriya/merakibeat/cmd"
+	"github.com/CiscoDevNet/merakibeat/cmd"
 )
 
 var systemTest *bool

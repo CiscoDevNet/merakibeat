@@ -8,7 +8,7 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
 
-	"github.com/npateriya/merakibeat/config"
+	"github.com/CiscoDevNet/merakibeat/config"
 )
 
 type Merakibeat struct {
