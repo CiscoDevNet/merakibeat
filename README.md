@@ -29,6 +29,15 @@ Supports following plugin specific configs
 -  merakikey: Meraki API key secret
 -  merakinewtorkids: Netwroks IDs to be monitored by this plugin format, ["ABC", "XYZ"]
 -  merakiorgid: ID of meraki oragnization
+
+Following fields to control sections that will be collected by data collector
+'1' represent data will be collected and '0' means data will be skipped.
+- nwconnstat: 1
+- nwlatencystat: 1
+- devconnstat: 0
+- devlatencystat: 0
+- clconnstat: 0
+- cllatencystat: 0
 	 
 All these field are configured in merakibeat.yml config file
 

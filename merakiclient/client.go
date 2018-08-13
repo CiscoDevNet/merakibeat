@@ -26,20 +26,34 @@ func NewMerakiClient(url, key, orgID string, networkIDs []string) MerakiClient {
 	}
 }
 
+func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", netURL, nil)
+	if err != nil {
+		logp.Info("Failed to connect Meraki API %s", err.Error())
+		return nil, err
+	}
+	req.Header.Add("X-Cisco-Meraki-API-Key", mc.Key)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		logp.Info("Failed to connect Meraki API %s", err.Error())
+		return nil, err
+	}
+
+	return ioutil.ReadAll(resp.Body)
+}
+
 func (mc *MerakiClient) GetNetworkConnectionStat(networkID string) (common.MapStr, error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/connectionStats", mc.URL, networkID)
 
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return common.MapStr{}, err
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return common.MapStr{}, err
 	}
+
 	var data NetworkStat
 	err = json.Unmarshal(body, &data)
 	if err != nil {
@@ -56,13 +70,7 @@ func (mc *MerakiClient) GetNetworkConnectionStat(networkID string) (common.MapSt
 func (mc *MerakiClient) GetNetworkLatencyStat(networkID string) (common.MapStr, error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/latencyStats", mc.URL, networkID)
 
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return common.MapStr{}, err
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return common.MapStr{}, err
@@ -81,14 +89,8 @@ func (mc *MerakiClient) GetNetworkLatencyStat(networkID string) (common.MapStr, 
 
 func (mc *MerakiClient) GetDevicesConnectionStat(networkID string) (devicesStat []common.MapStr, err error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/devices/connectionStats", mc.URL, networkID)
-	logp.Info("URL %s", netURL)
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return []common.MapStr{}, err
-	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return []common.MapStr{}, err
@@ -116,14 +118,8 @@ func (mc *MerakiClient) GetDevicesConnectionStat(networkID string) (devicesStat 
 
 func (mc *MerakiClient) GetDevicesLatencyStat(networkID string) (devicesStat []common.MapStr, err error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/devices/latencyStats", mc.URL, networkID)
-	logp.Info("URL %s", netURL)
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return []common.MapStr{}, err
-	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return []common.MapStr{}, err
@@ -151,14 +147,8 @@ func (mc *MerakiClient) GetDevicesLatencyStat(networkID string) (devicesStat []c
 
 func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat []common.MapStr, err error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/clients/connectionStats", mc.URL, networkID)
-	logp.Info("URL %s", netURL)
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return []common.MapStr{}, err
-	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return []common.MapStr{}, err
@@ -186,14 +176,8 @@ func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat [
 
 func (mc *MerakiClient) GetClientLatencyStat(networkID string) (clientsStat []common.MapStr, err error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/devices/latencyStats", mc.URL, networkID)
-	logp.Info("URL %s", netURL)
-	resp, err := http.Get(netURL)
-	if err != nil {
-		logp.Info("Failed to connect Meraki API %s", err.Error())
-		return []common.MapStr{}, err
-	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := mc.getData(netURL)
 	if err != nil {
 		logp.Info("Failed to get data from Meraki API %s", err.Error())
 		return []common.MapStr{}, err
