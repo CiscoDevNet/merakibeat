@@ -1,0 +1,20 @@
+################### Posbeat Configuration Example #########################
+
+############################# Posbeat ######################################
+
+posbeat:
+  # Defines how often an event is sent to the output
+  period: 10s
+  url: http://merakimock:5050
+  key: authsecret
+
+
+#-------------------------- Elasticsearch output ------------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["elasticsearch:9200"]
+
+  # Optional protocol and basic auth credentials.
+  #protocol: "https"
+  #username: "elastic"
+  #password: "changeme"

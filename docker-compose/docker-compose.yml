@@ -44,6 +44,16 @@ services:
     depends_on:
       - elasticsearch
 
+  posbeat:
+    image: npateriyainsecure/posbeat
+    volumes:
+      - ./config/posbeat.yml:/plugin/posbeat.yml:ro
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - merakimock
+
 networks:
   elk:
     driver: bridge
