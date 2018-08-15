@@ -45,6 +45,25 @@ func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
+func (mc *MerakiClient) GetNetworksForOrg() (NetworkDetailList, error) {
+
+	netURL := fmt.Sprintf("%s/api/v0/organizations/%s/networks", mc.URL, mc.OrgID)
+
+	body, err := mc.getData(netURL)
+	if err != nil {
+		logp.Info("Failed to get Network List from Meraki API %s", err.Error())
+		return nil, err
+	}
+
+	var data NetworkDetailList
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		logp.Info("Failed to Unmarshal data from API %s", err.Error())
+		return nil, err
+	}
+	return data, err
+}
+
 func (mc *MerakiClient) GetNetworkConnectionStat(networkID string) (common.MapStr, error) {
 	netURL := fmt.Sprintf("%s/api/v0/networks/%s/connectionStats", mc.URL, networkID)
 

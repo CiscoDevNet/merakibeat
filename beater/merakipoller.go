@@ -20,6 +20,22 @@ type MerakiPoller struct {
 func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller {
 	mc := merakiclient.NewMerakiClient(config.MerakiHost, config.MerakiKey,
 		config.MerakiOrgID, config.MerakiNetworkIDs)
+	nwList, err := mc.GetNetworksForOrg()
+	origLen := len(config.MerakiNetworkIDs)
+	config.MerakiNetworkIDsAll = make(map[string]string)
+	if err == nil {
+		for _, nw := range nwList {
+			logp.Info("Network Name: %s ID:%s ", nw.Name, nw.ID)
+			config.MerakiNetworkIDsAll[nw.ID] = nw.Name
+			// If user have not configured specific network IDs to be monitored,
+			// monitor all networks in organization
+			if origLen == 0 {
+				config.MerakiNetworkIDs = append(config.MerakiNetworkIDs, nw.ID)
+			}
+		}
+	} else {
+		logp.Err("Failed to get network list for org %s, Err :%s ", config.MerakiOrgID, err.Error())
+	}
 
 	poller := &MerakiPoller{
 		merakibeat: merakibeat,
@@ -35,6 +51,7 @@ func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller
 func (p *MerakiPoller) Run() {
 	logp.Info("%+v", p.config)
 	// Publish Network Connection Event
+	logp.Info("Getting nw stat for network %+v", p.config.MerakiNetworkIDs)
 	if p.config.NwConnStat != 0 {
 		for _, netID := range p.config.MerakiNetworkIDs {
 			mapStr, err := p.mc.GetNetworkConnectionStat(netID)

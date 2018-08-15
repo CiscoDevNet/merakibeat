@@ -114,3 +114,16 @@ func (ls *LatencyStats) GetMapStr(stattype string, addlnKVP map[string]string) (
 	}
 	return mapStr, nil
 }
+
+type NetworkDetailList []NetworkDetails
+
+type NetworkDetails struct {
+	ID                 string `json:"id"`
+	OrganizationID     string `json:"organizationId"`
+	Name               string `json:"name"`
+	TimeZone           string `json:"timeZone"`
+	Tags               string `json:"tags"`
+	Type               string `json:"type"`
+	DisableMyMerakiCom bool   `json:"disableMyMerakiCom,omitempty"`
+	ConfigTemplateID   string `json:"configTemplateId,omitempty"`
+}

@@ -5,10 +5,10 @@
 merakibeat:
   # Defines how often an event is sent to the output
   period: 10s
-  merakihost: http://localhost:5050
-  merakikey: XYZ
+  merakihost: https://api.meraki.com
+  merakikey: 093b24e85df15a3e66f1fc359f4c48493eaa1b73
   merakinewtorkids: ["ABC1", "ABC2"]
-  merakiorgid: "Org1"
+  merakiorgid: "549236"
   nwconnstat: 1
   nwlatencystat: 1
   devconnstat: 0
