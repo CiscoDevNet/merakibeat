@@ -23,6 +23,7 @@ services:
     depends_on:
       - elasticsearch
       - merakimock
+      - kibana
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.3.0

@@ -32,7 +32,7 @@ func NewMerakiClient(url, key, orgID string, networkIDs []string, period time.Du
 
 func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	client := &http.Client{}
-
+	var lag time.Duration = 300 * time.Second
 	req, err := http.NewRequest("GET", netURL, nil)
 	if err != nil {
 		logp.Info("Failed to connect Meraki API %s", err.Error())
@@ -41,19 +41,25 @@ func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	req.Header.Add("X-Cisco-Meraki-API-Key", mc.Key)
 
 	q := req.URL.Query()
-	endTime := time.Now().Unix()
-	startTime := time.Now().Add(0 - mc.Period).Unix()
+	endTime := time.Now().Add(0 - lag).Unix()
+	startTime := time.Now().Add(0 - (lag + mc.Period)).Unix()
+
+	//startTime = startTime - 600
+
 	q.Add("t0", strconv.FormatInt(startTime, 10))
 	q.Add("t1", strconv.FormatInt(endTime, 10))
 	req.URL.RawQuery = q.Encode()
 
+	logp.Info("Calling API URL %+v", req.URL)
 	resp, err := client.Do(req)
 	if err != nil {
 		logp.Info("Failed to connect Meraki API %s", err.Error())
 		return nil, err
 	}
 
-	return ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
+	logp.Info("%s", string(body[:]))
+	return body, err
 }
 
 func (mc *MerakiClient) GetNetworksForOrg() (NetworkDetailList, error) {
