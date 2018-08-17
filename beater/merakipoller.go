@@ -19,7 +19,7 @@ type MerakiPoller struct {
 
 func NewMerakiPoller(merakibeat *Merakibeat, config config.Config) *MerakiPoller {
 	mc := merakiclient.NewMerakiClient(config.MerakiHost, config.MerakiKey,
-		config.MerakiOrgID, config.MerakiNetworkIDs)
+		config.MerakiOrgID, config.MerakiNetworkIDs, config.Period)
 	nwList, err := mc.GetNetworksForOrg()
 	origLen := len(config.MerakiNetworkIDs)
 	config.MerakiNetworkIDsAll = make(map[string]string)
