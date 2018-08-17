@@ -56,10 +56,17 @@ type DevicesLatencyStat map[string]LatencyStats
 type ClientsLatencyStat map[string]LatencyStats
 
 func (lr *LatencyRange) GetAvgLat() float32 {
+	den := (lr.Num0 + lr.Num2 + lr.Num4 + lr.Num8 + lr.Num16 + lr.Num32 + lr.Num64 +
+		lr.Num128 + lr.Num256 + lr.Num512 + lr.Num1024 + lr.Num2048)
+
+	if den == 0 {
+		return 0.0
+	}
+
 	latency := float32(lr.Num0*(1/2)+lr.Num2*1+lr.Num4*2+lr.Num8*4+lr.Num16*8+lr.Num32*16+
 		lr.Num64*32+lr.Num128*64+lr.Num256*128+lr.Num512*256+lr.Num1024*512+lr.Num2048*1024) /
-		float32(lr.Num0+lr.Num2+lr.Num4+lr.Num8+lr.Num16+lr.Num32+lr.Num64+lr.Num128+lr.Num256+
-			lr.Num512+lr.Num1024+lr.Num2048)
+		float32(den)
+
 	return latency
 }
 func (ls *LatencyStats) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {

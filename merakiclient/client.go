@@ -43,8 +43,8 @@ func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	q := req.URL.Query()
 	endTime := time.Now().Unix()
 	startTime := time.Now().Add(0 - mc.Period).Unix()
-	q.Add("startUTC", strconv.FormatInt(startTime, 10))
-	q.Add("endUTC", strconv.FormatInt(endTime, 10))
+	q.Add("t0", strconv.FormatInt(startTime, 10))
+	q.Add("t1", strconv.FormatInt(endTime, 10))
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
