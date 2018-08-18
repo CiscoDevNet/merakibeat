@@ -1,6 +1,6 @@
 # Meraki network health status & sales data demo
 
-This demo will build a dashboard which will show real Meraki network health data and mock point-of-sale(POS) data.
+This demo will build a dashboard which will show the real time Meraki network health data and mocked point-of-sale(POS) data. 
   
 [Docker compose](https://docs.docker.com/compose/) start and configure the following service following
 
