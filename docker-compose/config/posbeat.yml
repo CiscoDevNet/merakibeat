@@ -4,7 +4,7 @@
 
 posbeat:
   # Defines how often an event is sent to the output
-  period: 10s
+  period: 600s
   url: http://merakimock:5050
   key: authsecret
 

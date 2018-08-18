@@ -4,10 +4,10 @@
 
 merakibeat:
   # Defines how often an event is sent to the output
-  period: 30s
-  merakihost: http://merakimock:5050
-  merakikey: XYZ
-  merakinewtorkids: ["ABC1", "ABC2" ]
+  period: 720s
+  merakihost: http://api.meraki.com
+  merakikey:
+  merakinewtorkids: []
   merakiorgid: "Org1"
   nwconnstat: 1
   nwlatencystat: 1
