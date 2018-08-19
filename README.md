@@ -41,16 +41,23 @@ Following fields to control sections that will be collected by data collector
 	 
 All these field are configured in merakibeat.yml config file
 
-### Running merakibeats as binary 
+## Running merakibeat
+### As docker-composer (**Recommended**)
+https://github.com/CiscoDevNet/merakibeat/blob/master/docker-compose/README.md
+
+### As binary 
 ```
 merakibeats -e -d *
 ```
 
-### Running merakibeats as docker image
-#### Bulding docker image 
-```
-make docker
-```
+## Building Source code
+https://github.com/CiscoDevNet/merakibeat/blob/scanner/CONTRIBUTING.md
+
+
+
+
+
+
 
     
 
