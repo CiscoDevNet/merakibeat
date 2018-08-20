@@ -26,6 +26,7 @@ to identify relation between network status and revenue impact.
 ![MerakiBeat pipeline](https://github.com/CiscoDevNet/merakibeat/blob/master/docs/media/merakibeat-pipeline.png)
 
 Sample kibana dashboard included as part of docker compose is
+
 ![MerakiBeat sample dashboard](https://github.com/CiscoDevNet/merakibeat/blob/master/docs/media/merakibeat-dashboard.png)
 
 
