@@ -47,6 +47,11 @@ Following are fields to control sections that will be collected by data collecto
 - clconnstat: 0
 - cllatencystat: 0
 	 
+Following fields can be configured for enabling meraki API scan receiver
+- scanEnable : 1    
+- scanSecret : "simulator"
+- scanValidator : "EnterYourValidator"
+
 All these field are configured in merakibeat.yml config file
 
 ## Running merakibeat
