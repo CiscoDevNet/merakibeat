@@ -153,3 +153,73 @@ type NetworkDetails struct {
 	DisableMyMerakiCom bool   `json:"disableMyMerakiCom,omitempty"`
 	ConfigTemplateID   string `json:"configTemplateId,omitempty"`
 }
+
+// Location Scan Data
+
+type ScanData struct {
+	Type    string     `json:"type"`
+	Secret  string     `json:"secret"`
+	Version string     `json:"version"`
+	Data    ClientData `json:"data"`
+}
+
+type ClientData struct {
+	ApMac        string        `json:"apMac"`
+	ApFloors     []string      `json:"apFloors"`
+	ApTags       []string      `json:"apTags"`
+	Observations []Observation `json:"observations"`
+}
+
+type Observation struct {
+	Ssid         string       `json:"ssid"`
+	Ipv4         string       `json:"ipv4"`
+	Ipv6         string       `json:"ipv6"`
+	SeenEpoch    float64      `json:"seenEpoch"`
+	SeenTime     string       `json:"seenTime"`
+	Rssi         int          `json:"rssi"`
+	Manufacturer string       `json:"manufacturer"`
+	Os           string       `json:"os"`
+	Location     LocationData `json:"location"`
+	ClientMac    string       `json:"clientMac"`
+}
+
+type LocationData struct {
+	Lat float64   `json:"lat"`
+	X   []float64 `json:"x"`
+	Lng float64   `json:"lng"`
+	Unc float64   `json:"unc"`
+	Y   []float64 `json:"y"`
+}
+
+func (sd *ScanData) GetMapStr(stattype string, addlnKVP map[string]string) ([]common.MapStr, error) {
+
+	var mapStrArr []common.MapStr
+	for _, observation := range sd.Data.Observations {
+		mapStr := common.MapStr{
+			"type":                stattype,
+			"datatype":            sd.Type,
+			"apMac":               sd.Data.ApMac,
+			"apFloors":            sd.Data.ApFloors,
+			"apTags":              sd.Data.ApTags,
+			"client.ssid":         observation.Ssid,
+			"client.rssi":         observation.Rssi,
+			"cliet.ipv4":          observation.Ipv4,
+			"client.ipv6":         observation.Ipv6,
+			"client.manufacturer": observation.Manufacturer,
+			"client.seenTime":     observation.SeenTime,
+			"client.seenEpoch":    observation.SeenEpoch,
+			"client.os":           observation.Os,
+			"client.Mac":          observation.ClientMac,
+			"client.lat":          observation.Location.Lat,
+			"client.lng":          observation.Location.Lng,
+			"client.unc":          observation.Location.Unc,
+			"client.x":            observation.Location.X,
+			"client.y":            observation.Location.Y,
+		}
+		for key, value := range addlnKVP {
+			mapStr.Put(key, value)
+		}
+		mapStrArr = append(mapStrArr, mapStr)
+	}
+	return mapStrArr, nil
+}

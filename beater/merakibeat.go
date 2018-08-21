@@ -9,6 +9,7 @@ import (
 	"github.com/elastic/beats/libbeat/logp"
 
 	"github.com/CiscoDevNet/merakibeat/config"
+	"github.com/CiscoDevNet/merakibeat/merakiclient"
 )
 
 type Merakibeat struct {
@@ -41,7 +42,10 @@ func (bt *Merakibeat) Run(b *beat.Beat) error {
 	if err != nil {
 		return err
 	}
-
+	if bt.config.ScanEnable == 1 {
+		receiver := merakiclient.NewScanReceiver(bt.config.ScanSecret, bt.config.ScanValidator, bt.client)
+		go receiver.Run()
+	}
 	ticker := time.NewTicker(bt.config.Period)
 	poller := NewMerakiPoller(bt, bt.config)
 	for {

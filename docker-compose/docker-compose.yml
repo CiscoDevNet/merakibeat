@@ -16,6 +16,8 @@ services:
 
   merakibeat:
     image: npateriyainsecure/merakibeat
+    ports:
+      - "5001:5001"
     volumes:
       - ./config/merakibeat.yml:/plugin/merakibeat.yml:ro
     networks:
@@ -54,6 +56,13 @@ services:
     depends_on:
       - elasticsearch
       - merakimock
+
+  merakiscansimulator:
+    image: npateriyainsecure/locationscanningsimulator
+    ports:
+     - "5002:5002"
+    networks:
+      - elk
 
 networks:
   elk:

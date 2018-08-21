@@ -17,6 +17,9 @@ type Config struct {
 	DeviceLatencyStat   int           `config:"devlatencystat"`
 	ClientConnStat      int           `config:"clconnstat"`
 	ClientLatencyStat   int           `config:"cllatencystat"`
+	ScanSecret          string        `config:"scanSecret"`
+	ScanValidator       string        `config:"scanValidator"`
+	ScanEnable          int           `config:"scanEnable"`
 	MerakiNetworkIDsAll map[string]string
 }
 
