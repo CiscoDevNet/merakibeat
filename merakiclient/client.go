@@ -44,7 +44,7 @@ func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	endTime := time.Now().Add(0 - lag).Unix()
 	startTime := time.Now().Add(0 - (lag + mc.Period)).Unix()
 
-	startTime = startTime - 600
+	//startTime = startTime - 600
 
 	q.Add("t0", strconv.FormatInt(startTime, 10))
 	q.Add("t1", strconv.FormatInt(endTime, 10))
