@@ -11,9 +11,18 @@ type NetworkStat struct {
 	DNS     int `json:"dns"`
 	Success int `json:"success"`
 }
+type DeviceNetworkStat struct {
+	Serial          string      `json:"serial"`
+	ConnectionStats NetworkStat `json:"connectionStats"`
+}
 
-type DevicesNetworkStat map[string]NetworkStat
-type ClientsNetworkStat map[string]NetworkStat
+type ClientNetworkStat struct {
+	MAC             string      `json:"mac"`
+	ConnectionStats NetworkStat `json:"connectionStats"`
+}
+
+type DevicesNetworkStat []DeviceNetworkStat
+type ClientsNetworkStat []ClientNetworkStat
 
 func (ns *NetworkStat) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
 	mapStr := common.MapStr{
@@ -52,8 +61,18 @@ type LatencyStats struct {
 	VoiceTraffic      LatencyRange `json:"voiceTraffic"`
 }
 
-type DevicesLatencyStat map[string]LatencyStats
-type ClientsLatencyStat map[string]LatencyStats
+type DeviceLatencyStat struct {
+	Serial       string       `json:"serial"`
+	LatencyStats LatencyStats `json:"latencyStats"`
+}
+
+type ClientLatencyStat struct {
+	MAC          string       `json:"mac"`
+	LatencyStats LatencyStats `json:"latencyStats"`
+}
+
+type DevicesLatencyStat []DeviceLatencyStat
+type ClientsLatencyStat []ClientLatencyStat
 
 func (lr *LatencyRange) GetAvgLat() float32 {
 	den := (lr.Num0 + lr.Num2 + lr.Num4 + lr.Num8 + lr.Num16 + lr.Num32 + lr.Num64 +

@@ -44,7 +44,7 @@ func (mc *MerakiClient) getData(netURL string) ([]byte, error) {
 	endTime := time.Now().Add(0 - lag).Unix()
 	startTime := time.Now().Add(0 - (lag + mc.Period)).Unix()
 
-	//startTime = startTime - 600
+	startTime = startTime - 600
 
 	q.Add("t0", strconv.FormatInt(startTime, 10))
 	q.Add("t1", strconv.FormatInt(endTime, 10))
@@ -78,7 +78,13 @@ func (mc *MerakiClient) GetNetworksForOrg() (NetworkDetailList, error) {
 		logp.Info("Failed to Unmarshal data from API %s", err.Error())
 		return nil, err
 	}
-	return data, err
+	var wirelessnws NetworkDetailList
+	for _, nw := range data {
+		if nw.Type == "wireless" {
+			wirelessnws = append(wirelessnws, nw)
+		}
+	}
+	return wirelessnws, err
 }
 
 func (mc *MerakiClient) GetNetworkConnectionStat(networkID string) (common.MapStr, error) {
@@ -139,12 +145,12 @@ func (mc *MerakiClient) GetDevicesConnectionStat(networkID string) (devicesStat 
 	}
 	logp.Info("data from API %+v", data)
 
-	for key, value := range data {
+	for _, value := range data {
 		additionalMap := map[string]string{
 			"networkid": networkID,
-			"deviceid":  key,
+			"deviceid":  value.Serial,
 		}
-		nwStat, _ := value.GetMapStr("DeviceNetworkConnectionStat", additionalMap)
+		nwStat, _ := value.ConnectionStats.GetMapStr("DeviceNetworkConnectionStat", additionalMap)
 		devicesStat = append(devicesStat, nwStat)
 	}
 	logp.Info("%+v", devicesStat)
@@ -168,12 +174,12 @@ func (mc *MerakiClient) GetDevicesLatencyStat(networkID string) (devicesStat []c
 	}
 	logp.Info("data from API %+v", data)
 
-	for key, value := range data {
+	for _, value := range data {
 		additionalMap := map[string]string{
 			"networkid": networkID,
-			"deviceid":  key,
+			"deviceid":  value.Serial,
 		}
-		latencyStat, _ := value.GetMapStr("DeviceNetworkLatencyStat", additionalMap)
+		latencyStat, _ := value.LatencyStats.GetMapStr("DeviceNetworkLatencyStat", additionalMap)
 		devicesStat = append(devicesStat, latencyStat)
 	}
 	logp.Info("%+v", devicesStat)
@@ -197,12 +203,12 @@ func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat [
 	}
 	logp.Info("data from API %+v", data)
 
-	for key, value := range data {
+	for _, value := range data {
 		additionalMap := map[string]string{
 			"networkid": networkID,
-			"clientid":  key,
+			"clientid":  value.MAC,
 		}
-		nwStat, _ := value.GetMapStr("ClientNetworkConnectionStat", additionalMap)
+		nwStat, _ := value.ConnectionStats.GetMapStr("ClientNetworkConnectionStat", additionalMap)
 		clientsStat = append(clientsStat, nwStat)
 	}
 	logp.Info("%+v", clientsStat)
@@ -226,12 +232,12 @@ func (mc *MerakiClient) GetClientLatencyStat(networkID string) (clientsStat []co
 	}
 	logp.Info("data from API %+v", data)
 
-	for key, value := range data {
+	for _, value := range data {
 		additionalMap := map[string]string{
 			"networkid": networkID,
-			"deviceid":  key,
+			"deviceid":  value.MAC,
 		}
-		latencyStat, _ := value.GetMapStr("ClientNetworkLatencyStat", additionalMap)
+		latencyStat, _ := value.LatencyStats.GetMapStr("ClientNetworkLatencyStat", additionalMap)
 		clientsStat = append(clientsStat, latencyStat)
 	}
 	logp.Info("%+v", clientsStat)

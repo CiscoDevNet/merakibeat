@@ -2,7 +2,7 @@
 
 ### Requirements
 
-* [Golang](https://golang.org/dl/) 1.9
+* [Golang](https://golang.org/dl/) 1.9+
 
 
 ### Build
