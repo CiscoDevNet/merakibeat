@@ -59,14 +59,5 @@ merakibeats -e -d *
 ```
 
 ## Building Source code
-https://github.com/CiscoDevNet/merakibeat/blob/scanner/CONTRIBUTING.md
-
-
-
-
-
-
-
-    
-
+https://github.com/CiscoDevNet/merakibeat/blob/master/DEVELOPMENT.md
 
