@@ -210,10 +210,19 @@ type LocationData struct {
 	Y   []float64 `json:"y"`
 }
 
+type ElasticLoc struct {
+	Lat float64 `json:"lat"`
+	Lon float64 `json:"lon"`
+}
+
 func (sd *ScanData) GetMapStr(stattype string, addlnKVP map[string]string) ([]common.MapStr, error) {
 
 	var mapStrArr []common.MapStr
 	for _, observation := range sd.Data.Observations {
+		elLoc := ElasticLoc{
+			Lat: observation.Location.Lat,
+			Lon: observation.Location.Lng,
+		}
 		mapStr := common.MapStr{
 			"type":                stattype,
 			"datatype":            sd.Type,
@@ -234,6 +243,7 @@ func (sd *ScanData) GetMapStr(stattype string, addlnKVP map[string]string) ([]co
 			"client.unc":          observation.Location.Unc,
 			"client.x":            observation.Location.X,
 			"client.y":            observation.Location.Y,
+			"location":            elLoc,
 		}
 		for key, value := range addlnKVP {
 			mapStr.Put(key, value)
