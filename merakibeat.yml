@@ -4,17 +4,21 @@
 
 merakibeat:
   # Defines how often an event is sent to the output
-  period: 60s
-  merakihost: https://api.meraki.com
-  merakikey: 093b24e85df15a3e66f1fc359f4c48493eaa1b73
-  merakinewtorkids: ["ABC1", "ABC2"]
-  merakiorgid: "549236"
+  period: 720s
+  merakihost: http://api.meraki.com
+  merakikey:
+  merakinewtorkids: []
+  merakiorgid: "Org1"
   nwconnstat: 1
   nwlatencystat: 1
   devconnstat: 0
   devlatencystat: 0
   clconnstat: 0
   cllatencystat: 0
+  # Meraki Scanning API config
+  scanEnable : 1
+  scanSecret : "simulator"
+  scanValidator : "EnterYourValidator"
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group
@@ -39,7 +43,7 @@ name: MerakiHealth
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["localhost:9200"]
+  hosts: ["elasticsearch:9200"]
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"

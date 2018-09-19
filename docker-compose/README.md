@@ -74,7 +74,16 @@ In the `Management > Saved Objects` view, click `Import` and import the `config/
 #### 4. Dashboard
 Click `Dashboard` at the navigation panel and select `Dashboard`. You can change the **Time Range** at the right top to show data from different time window.
 
+## Meraki scanning API simulator config 
 
+For testing purpose simulator for meraki scanning API is also included, below are configure steps to use simulator
+
+1. Open simulator web page http://localhost:5002/go
+
+2. Configure Number of AP & Clients to be simulated. 
+
+3. Enter Server URL as : http://merakibeat:5001/api/v1/scanning/receiver/
+	
 
 
 

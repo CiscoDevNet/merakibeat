@@ -15,6 +15,10 @@ merakibeat:
   devlatencystat: 0
   clconnstat: 0
   cllatencystat: 0
+  # Meraki Scanning API config
+  scanEnable : 1
+  scanSecret : "simulator"
+  scanValidator : "EnterYourValidator"
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group
