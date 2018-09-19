@@ -54,6 +54,12 @@ Following fields can be configured for enabling meraki API scan receiver
 
 All these field are configured in merakibeat.yml config file
 
+#### Meraki Scanning API configuration 
+ - Meraki scanning receiver is exposed at http://\<baseurl\>:5001/api/v1/scanning/receiver/
+	- \<baseurl\> could be http://publicip of host on which meraki beat is or user can configures dns name for assigned IP.
+ - This endpoint should be registered in meraki dashboard details can found in this https://documentation.meraki.com/MR/Monitoring_and_Reporting/Scanning_API#Enable_Scanning_API document. 
+ - Secret and validator from above registration process must be set in above merakibeat config file. 
+	
 ## Running merakibeat
 ### As docker-composer (**Recommended**)
 https://github.com/CiscoDevNet/merakibeat/blob/master/docker-compose/README.md
