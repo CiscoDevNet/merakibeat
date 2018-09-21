@@ -25,10 +25,11 @@ to identify relation between network status and revenue impact.
 
 ![MerakiBeat pipeline](https://github.com/CiscoDevNet/merakibeat/blob/master/docs/media/merakibeat-pipeline.png)
 
+ Note: POSBeat plugin mentioned in above diagram is to collect sales data, this is custom non-generic plugin can not be open sourced. POS simulator & posbeat docker images are listed in docker-compose for reference.  
+
 Sample kibana dashboard included as part of docker compose is
 
 ![MerakiBeat sample dashboard](https://github.com/CiscoDevNet/merakibeat/blob/master/docs/media/merakibeat-dashboard.png)
-
 
 # Configuring MerakiBeats plugin
 Supports following plugin specific configs in merakibeat.yml file
