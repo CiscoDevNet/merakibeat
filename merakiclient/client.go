@@ -205,8 +205,9 @@ func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat [
 
 	for _, value := range data {
 		additionalMap := map[string]string{
-			"networkid": networkID,
-			"clientid":  value.MAC,
+			"networkid":  networkID,
+			"clientid":   value.MAC,
+			"client.Mac": value.MAC,
 		}
 		nwStat, _ := value.ConnectionStats.GetMapStr("ClientNetworkConnectionStat", additionalMap)
 		clientsStat = append(clientsStat, nwStat)
@@ -217,7 +218,7 @@ func (mc *MerakiClient) GetClientConnectionStat(networkID string) (clientsStat [
 }
 
 func (mc *MerakiClient) GetClientLatencyStat(networkID string) (clientsStat []common.MapStr, err error) {
-	netURL := fmt.Sprintf("%s/api/v0/networks/%s/devices/latencyStats", mc.URL, networkID)
+	netURL := fmt.Sprintf("%s/api/v0/networks/%s/clients/latencyStats", mc.URL, networkID)
 
 	body, err := mc.getData(netURL)
 	if err != nil {
@@ -234,8 +235,9 @@ func (mc *MerakiClient) GetClientLatencyStat(networkID string) (clientsStat []co
 
 	for _, value := range data {
 		additionalMap := map[string]string{
-			"networkid": networkID,
-			"deviceid":  value.MAC,
+			"networkid":  networkID,
+			"clientid":   value.MAC,
+			"client.Mac": value.MAC,
 		}
 		latencyStat, _ := value.LatencyStats.GetMapStr("ClientNetworkLatencyStat", additionalMap)
 		clientsStat = append(clientsStat, latencyStat)
