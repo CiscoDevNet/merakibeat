@@ -1,3 +1,4 @@
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/CiscoDevNet/merakibeat)
 # Merakibeat
 
 This is elastic beats (https://www.elastic.co/products/beats) plugin for Meraki 
