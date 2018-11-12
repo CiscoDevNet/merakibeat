@@ -4,21 +4,25 @@
 
 merakibeat:
   # Defines how often an event is sent to the output
-  period: 720s
+  period: 1200s
   merakihost: http://api.meraki.com
-  merakikey:
-  merakinewtorkids: []
-  merakiorgid: "Org1"
-  nwconnstat: 1
-  nwlatencystat: 1
+  merakikey: 7f1db01360c2a3873cfacce6cd97e0563eb1e7f4
+  merakinewtorkids: ["L_657525545596098870"]
+  merakiorgid: "754356"
+  nwconnstat: 0
+  nwlatencystat: 0
   devconnstat: 0
   devlatencystat: 0
   clconnstat: 0
   cllatencystat: 0
   # Meraki Scanning API config
-  scanEnable : 1
-  scanSecret : "simulator"
-  scanValidator : "EnterYourValidator"
+  scanEnable : 0
+  scanSecret : "changeme"
+  scanValidator : "changeme"
+  #Camera API config
+  # List of "cameraserialid:zone_id"
+  videoPeriod: 120s
+  cameraZoneList: ["Q2GV-DGHE-SX5T:0"]
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group

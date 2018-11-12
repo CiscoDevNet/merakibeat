@@ -48,6 +48,8 @@ before-build:
 .PHONY: collect
 collect:
 
+local:
+	CGO_ENABLED=0 go build -o release/linux/amd64/merakibeat
 docker:
 	GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -o release/linux/amd64/merakibeat
 	docker build -t npateriyainsecure/merakibeat .	

@@ -46,15 +46,23 @@ func (bt *Merakibeat) Run(b *beat.Beat) error {
 		receiver := merakiclient.NewScanReceiver(bt.config.ScanSecret, bt.config.ScanValidator, bt.client)
 		go receiver.Run()
 	}
+	// health api poller
 	ticker := time.NewTicker(bt.config.Period)
-	poller := NewMerakiPoller(bt, bt.config)
+	poller := NewMerakiHealthPoller(bt, bt.config)
+
+	// video api poller
+	videoTicker := time.NewTicker(bt.config.VideoPeriod)
+	videoPoller := NewMerakiVideoPoller(bt, bt.config)
+	fmt.Printf("Period health %+v Period video %+v", bt.config.Period, bt.config.VideoPeriod)
 	for {
 		select {
 		case <-bt.done:
 			return nil
 		case <-ticker.C:
+			poller.Run()
+		case <-videoTicker.C:
+			videoPoller.Run()
 		}
-		poller.Run()
 	}
 }
 
