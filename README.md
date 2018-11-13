@@ -6,7 +6,11 @@ health API. Merakibeat plugin enables data collection and analytics pipeline for
 - Meraki Health API
 - Meraki Camera API
 - Meraki User Location analytics API
-In addition to this project also demonstrate how existing POS of sales data can also added to datasource, so that network health, camera & user analytics data can be used to do combined business analtics.  
+
+
+This pipeline enables analyzing Meraki health data, camera API, user location anaytics Data
+with other enterprise data like Point Of Sales, to identify relation between meraki provided data
+and revenue impact.
 
 #### Meraki exposes health API
 
@@ -34,8 +38,7 @@ The Cisco Meraki Location Analytics API uses intelligent access points to delive
 Meraki Camera utilizes a powerful onboard processor to analyze video and provide valuable insights without the need to send those video files to the cloud or a local server. These insight include object/person detection, these insight are also made available to users using camera APIs. Merakibeat camera plugin support collecting information like average person counts and entrances in specific zone. This information can be utilized to identify multiple retails and other campuses scenarios like Queue size, popularity of display rack etc that can be overlayed with POS data.      
 
 
-This pipeline enables analysing mearki health data with other enterprise data like Point Of Sales,
-to identify relation between network status and revenue impact.
+
 
 ## MerakiBeat Data pipeline
 
