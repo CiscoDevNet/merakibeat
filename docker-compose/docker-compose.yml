@@ -27,6 +27,19 @@ services:
       - merakimock
       - kibana
 
+  merakibeataws:
+    image: npateriyainsecure/merakibeat
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./config/merakibeataws.yml:/plugin/merakibeat.yml:ro
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - merakimock
+      - kibana
+
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.3.0
     volumes:

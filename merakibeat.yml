@@ -9,6 +9,7 @@ merakibeat:
   merakikey:
   merakinewtorkids: []
   merakiorgid: "Org1"
+  # Health API config
   nwconnstat: 1
   nwlatencystat: 1
   devconnstat: 0
@@ -19,6 +20,10 @@ merakibeat:
   scanEnable : 1
   scanSecret : "simulator"
   scanValidator : "EnterYourValidator"
+  # Camera API config
+  videoPeriod: 300s
+  cameraZoneList: []
+
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group
