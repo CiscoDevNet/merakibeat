@@ -12,9 +12,10 @@ type ZoneHistoryInfoList []ZoneHistoryInfo
 
 type ZoneHistoryInfo struct {
 	CameraCommon
-	Ts           string  `json:"ts"`
+	StartTs      string  `json:"startTs"`
+	EndTs        string  `json:"endTs"`
 	Entrances    int     `json:"entrances"`
-	AverageCount float32 `json:"average_count"`
+	AverageCount float32 `json:"averageCount"`
 }
 
 type ZoneRecentInfoList []ZoneRecentInfo
@@ -22,10 +23,10 @@ type ZoneRecentInfoList []ZoneRecentInfo
 type ZoneRecentInfo struct {
 	CameraCommon
 	ZoneID       int     `json:"zone_id"`
-	SecondsAgo   int     `json:"seconds_ago"`
-	Ts           float64 `json:"ts"`
+	StartTs      string  `json:"startTs"`
+	EndTs        string  `json:"endTs"`
 	Entrances    int     `json:"entrances"`
-	AverageCount float64 `json:"average_count"`
+	AverageCount float32 `json:"averageCount"`
 }
 
 type CameraOverviewInfoList []CameraOverviewInfo
@@ -45,7 +46,22 @@ func (zi *ZoneHistoryInfo) GetMapStr(stattype string, addlnKVP map[string]string
 		"cameraserial":  zi.CameraSerial,
 		"entrances":     zi.Entrances,
 		"average_count": zi.AverageCount,
-		"timestamp":     zi.Ts,
+		"timestamp":     zi.StartTs,
+	}
+	for key, value := range addlnKVP {
+		mapStr.Put(key, value)
+	}
+	return mapStr, nil
+}
+
+func (zi *ZoneRecentInfo) GetMapStr(stattype string, addlnKVP map[string]string) (common.MapStr, error) {
+	mapStr := common.MapStr{
+		"type":          stattype,
+		"cameraserial":  zi.CameraSerial,
+		"entrances":     zi.Entrances,
+		"average_count": zi.AverageCount,
+		"timestamp":     zi.StartTs,
+		"zone_id":       zi.ZoneID,
 	}
 	for key, value := range addlnKVP {
 		mapStr.Put(key, value)
