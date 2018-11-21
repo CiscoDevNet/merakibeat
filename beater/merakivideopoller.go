@@ -38,21 +38,24 @@ func (p *MerakiVideoPoller) Run() {
 	if len(p.config.CameraZoneList) > 0 {
 		for _, cameraZone := range p.config.CameraZoneList {
 			serialzone := strings.Split(cameraZone, ":")
-			mapStrArr, err := p.mc.GetZoneHistory(serialzone[0], serialzone[1])
+			//mapStrArr, err := p.mc.GetZoneHistory(serialzone[0], serialzone[1])
+			mapStrArr, err := p.mc.GetZoneRecentInfo(serialzone[0], serialzone[1])
 			if err == nil {
 				for _, mapStr := range mapStrArr {
 					ts := time.Now()
 					tsa, err := mapStr.GetValue("timestamp")
 					if err == nil {
-						ts, err = time.Parse("2006-01-02 15:04:05 -0700", tsa.(string))
+						ts, err = time.Parse("2006-01-02T15:04:05.999Z", tsa.(string))
 						if err == nil {
 							event := beat.Event{
 								Timestamp: ts,
 								Fields:    mapStr,
 							}
 							p.merakibeat.client.Publish(event)
-							logp.Info("Camera Zone History info nnection Stat event sent")
+							logp.Info("Camera Zone Recent info event sent")
 						}
+					} else {
+						logp.Info("Camera Zone History info Stat event failed err %s", err.Error())
 					}
 				}
 			}
