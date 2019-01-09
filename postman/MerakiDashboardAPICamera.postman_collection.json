@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "173ef2f5-d1e2-415d-2fb2-7f4e797a9e39",
+		"name": "Meraki Dashboard API Camera",
+		"description": "This collection of API calls provides an easy way to interact with a Cisco Meraki network. Update your environment variables to efficiently use the collection.\n\n**Common Variables**\n* X-Cisco-Meraki-API-Key\n* organizationId\n* networkId\n* baseUrl\n\nA template has been provided that can be used to quickly import the variable names. You will still be responsible for filling in the values and missing variables as needed.\n\n\n# What's New?\n**June 2018**\n- GET /networks/[id]/splashLoginAttempts\n\n*Clients*\n- GET /networks/:id/clients/:mac/\n- GET /networks/:id/clients/:mac/usageHistory\n- GET /networks/:id/clients/:mac/trafficHistory\n- GET /networks/:id/clients/:mac/events\n- GET /networks/:id/clients/:mac/securityEvents\n- GET /networks/[networkId]/clients/[id_or_mac_or_ip]/latencyHistory\n\n*Bluetooth Clients*\n- GET /networks/:id/bluetoothClients[/:mac]\n\n*Meraki Auth*\n- GET /networks/:id/merakiAuthUsers[/:email]\n\n*Network*\n- GET /networks/:id/splashLoginAttempts?loginIdentifier=:email_or_username\n\n*PII*\n- updated endpoints to support both network and organization variations. \n\n** May 2018 **\n- Personal Identifying Information endpoints (may require Meraki Support request)\n- General cleanup. Adjusted enpoint names by removing their endpoint group name (\"Networks - get all networks.. --> \"get all networks\")\n- Updated all endpoints with a `{{baseUrl}}` environment variable. This makes it easier to test API proxies, mocks, or target a Meraki Cloud shard (i.e. \"n123.meraki.com\")\n- Included a Template Environment for a quicker start\n\n** Apr 2018 **\n- Organization Device Summary Status \n  * List the status of every Meraki device in the organization. \n\t-Returns a single array of all devices.\n\n** Mar 2018 **\n- MX cellular firewall rules\n  * Return cellular firewall rules\n  * Update cellular firewall rules\n\n** Feb 2018 **\n- Clone Network\n  * Use the **Create a Network** endpoint with the `copyFromNetworkId` parameter to create a new network with the same settings as the source network.\n\n** Nov 2017 **\n- MX VPN Firewall Rules\n  * Return the firewall rules for an org\n  * Upate the firewall rules of an org\n\n** Oct 2017. **\n- Group Policy support\n  * Bind a client to a Group Policy\n  * List Group Policies for a Network\n- MX L3 Firewalls\n  * Return L3 Firewall Rules\n  * Update L3 Firewall Rules\n- Bluetooth Settings\n  * Return Bluetooth Settings\n  * Update Bluetooth Settings\n- Splash authorization\n  * Return Splash Authorization status\n  * Update Splash Authorization status\n- Update the SNMP settings for an organization\n- Phone Assignments\n  * List all phones in a network and their contact assignment\n  * Return a phone's contact assignment\n  * Assign a contact and number(s) to a phone\n  * Remove a phone assignment (unprovision a phone)\n\n## Documentation and Resources\nhttps://dashboard.meraki.com/api_docs\nhttp://developers.meraki.com/\n\n## Troubleshooting:\n- Check your profile permissions. If you can't do it in Dashboard, you won't be able to in the API.\n\n- Some calls seem to work better if you use the shard number instead of \"dashboard\" because of a required redirect. Just update the shard that matches when you login to the web Dashboard. It will be in the URL.\n\n**Original**\n\n```\n- https://dashboard.meraki.com/api/v0/networks/{{networkId}}/ssids/{{ssidNum}}?name=viaAPI345&number={{ssidNum}}\n```\n**With shard number**\n\n```\n- https://n123.meraki.com/api/v0/networks/{{networkId}}/ssids/{{ssidNum}}?name=viaAPI345&number={{ssidNum}}\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Camera API",
+			"item": [
+				{
+					"name": "Zones - Returns all configured analytic zones for this camera",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Cisco-Meraki-API-Key",
+								"value": "{{X-Cisco-Meraki-API-Key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://api.meraki.com/api/v0/devices/{{camera_serial}}/camera/analytics/zones"
+					},
+					"response": []
+				},
+				{
+					"name": "Analytics Overview - Returns an overview of aggregate analytics data for a time span",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Cisco-Meraki-API-Key",
+								"value": "{{X-Cisco-Meraki-API-Key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://api.meraki.com/api/v0/devices/{{camera_serial}}/camera/analytics/overview"
+					},
+					"response": []
+				},
+				{
+					"name": "History - Return historical records for analytic zones aggregated per minute",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Cisco-Meraki-API-Key",
+								"value": "{{X-Cisco-Meraki-API-Key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://api.meraki.com/api/v0/devices/{{camera_serial}}/camera/analytics/zones/{{zoneId}}/history"
+					},
+					"response": []
+				},
+				{
+					"name": "Returns most recent record for analytics zones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Cisco-Meraki-API-Key",
+								"value": "{{X-Cisco-Meraki-API-Key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://api.meraki.com/api/v0/devices/{{camera_serial}}/camera/analytics/zones/{{zoneId}}/recent"
+					},
+					"response": []
+				},
+				{
+					"name": "Returns live state from camera of analytics zones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Cisco-Meraki-API-Key",
+								"value": "{{X-Cisco-Meraki-API-Key}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://api.meraki.com/api/v0/devices/{{camera_serial}}/camera/analytics/zones/{{zoneId}}/live"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
