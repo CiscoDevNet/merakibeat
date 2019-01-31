@@ -35,7 +35,7 @@ sudo chmod go-w config/merakibeat.yml
 sudo chmod go-w config/posbeat.yml
 
 sudo chown root:root config/merakibeat.yml
-sudo chown root:root config/config/posbeat.yml
+sudo chown root:root config/posbeat.yml
 
 ```
 
